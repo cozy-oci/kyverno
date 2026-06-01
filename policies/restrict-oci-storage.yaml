@@ -8,10 +8,13 @@ metadata:
     policies.kyverno.io/severity: high
     policies.kyverno.io/subject: PersistentVolume, PersistentVolumeClaim
 spec:
+  admission: true
   validationFailureAction: Enforce
   background: false
+  emitWarning: false
   rules:
     - name: require-oci-fss-storageclass-for-pvc
+      skipBackgroundRequests: true
       match:
         any:
           - resources:
@@ -24,6 +27,7 @@ spec:
           spec:
             storageClassName: oci-fss
     - name: require-oci-fss-storageclass-for-pv
+      skipBackgroundRequests: true
       match:
         any:
           - resources:
@@ -36,6 +40,7 @@ spec:
           spec:
             storageClassName: oci-fss
     - name: require-oci-fss-csi-driver-for-pv
+      skipBackgroundRequests: true
       match:
         any:
           - resources:
