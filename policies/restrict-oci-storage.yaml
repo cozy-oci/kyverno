@@ -9,7 +9,7 @@ metadata:
     policies.kyverno.io/subject: PersistentVolume, PersistentVolumeClaim
 spec:
   validationFailureAction: Enforce
-  background: true
+  background: false
   rules:
     - name: require-oci-fss-storageclass-for-pvc
       match:
@@ -18,6 +18,7 @@ spec:
               kinds:
                 - PersistentVolumeClaim
       validate:
+        allowExistingViolations: false
         message: "Only the oci-fss storage class is allowed for PersistentVolumeClaims. The default oci-bv storage class is not allowed."
         pattern:
           spec:
@@ -29,6 +30,7 @@ spec:
               kinds:
                 - PersistentVolume
       validate:
+        allowExistingViolations: false
         message: "Only the oci-fss storage class is allowed for PersistentVolumes. OCI block volume storage is not allowed."
         pattern:
           spec:
@@ -45,6 +47,7 @@ spec:
             operator: NotEquals
             value: ""
       validate:
+        allowExistingViolations: false
         message: "Only the fss.csi.oraclecloud.com CSI driver is allowed for PersistentVolumes. The blockvolume.csi.oraclecloud.com driver is not allowed."
         pattern:
           spec:
